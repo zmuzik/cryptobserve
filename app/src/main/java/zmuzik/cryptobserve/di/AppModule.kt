@@ -3,6 +3,8 @@ package zmuzik.cryptobserve.di
 
 import android.arch.persistence.room.Room
 import android.content.Context
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -16,10 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import zmuzik.cryptobserve.App
 import zmuzik.cryptobserve.BuildConfig
 import zmuzik.cryptobserve.Conf
-import zmuzik.cryptobserve.repo.Api
-import zmuzik.cryptobserve.repo.Db
-import zmuzik.cryptobserve.repo.DefaultRepo
-import zmuzik.cryptobserve.repo.Repo
+import zmuzik.cryptobserve.repo.*
 import javax.inject.Singleton
 
 
@@ -31,7 +30,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideRepo(db: Db, api: Api): Repo = DefaultRepo(db, api)
+    fun provideRepo(db: Db, prefs: Prefs, api: Api): Repo = DefaultRepo(db, prefs, api)
 
     @Provides
     @Singleton
@@ -71,4 +70,12 @@ class AppModule {
     @Provides
     @Singleton
     fun provideApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
+
+    @Provides
+    @Singleton
+    fun providesSharedPreferences(app: App) = PreferenceManager.getDefaultSharedPreferences(app)
+
+    @Provides
+    @Singleton
+    fun providePrefs(sharedPreferences: SharedPreferences) = Prefs(sharedPreferences)
 }

@@ -32,7 +32,7 @@ class CoinListActivity : AppCompatActivity() {
         coinsListRv.layoutManager = LinearLayoutManager(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CoinListViewModel::class.java)
-        viewModel.getAllCoins().observe(this, Observer { it?.let { onCoinsLoaded(it) } })
+        viewModel.getAllFavoriteCoins().observe(this, Observer { it?.let { onCoinsLoaded(it) } })
     }
 
     override fun onResume() {
@@ -79,7 +79,7 @@ class CoinListActivity : AppCompatActivity() {
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             fun bindItem(position: Int) {
                 val coin = coins[position]
-                itemView.coinNameTv.text = coin.name
+                itemView.coinNameTv.text = coin.ticker
             }
         }
     }

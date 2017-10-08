@@ -12,5 +12,6 @@ class CoinListViewModel
 
     fun maybeRequestAllCoinsUpdate() = repo.maybeRequestAllCoinsUpdate()
 
-    fun getAllCoins(): LiveData<List<Coin>> = repo.getAllCoins()
+    fun getAllFavoriteCoins(): LiveData<List<Coin>> = repo.getAllFavoriteCoins()
+
 }

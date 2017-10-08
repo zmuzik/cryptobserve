@@ -9,4 +9,7 @@ interface Repo {
     fun maybeRequestAllCoinsUpdate()
 
     fun getAllCoins(): LiveData<List<Coin>>
+
+    fun getAllFavoriteCoins(): LiveData<List<Coin>>
+
 }
