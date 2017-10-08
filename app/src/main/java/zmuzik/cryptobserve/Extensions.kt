@@ -7,19 +7,26 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import java.text.DecimalFormat
 
 
 fun ViewGroup.inflate(layoutRes: Int): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, false)
 }
 
-fun View.setVisible(visible: Boolean): Unit = this.setVisibility(if (visible) View.VISIBLE else View.GONE)
+fun View.setVisible(visible: Boolean) = setVisibility(if (visible) View.VISIBLE else View.GONE)
 
 fun ImageView.loadImg(imageUrl: String) {
     if ("" == imageUrl) return
     Glide.with(context).load(imageUrl).centerCrop().into(this)
 }
 
-fun AppCompatActivity.toast(message : String) {
+fun AppCompatActivity.toast(message: String) {
     Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+}
+
+fun Double.format(): String {
+    val df = DecimalFormat("0")
+    df.maximumFractionDigits = 20
+    return df.format(this)
 }

@@ -2,7 +2,6 @@ package zmuzik.cryptobserve.screens.coinlist
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -112,7 +111,7 @@ class CoinListActivity : AppCompatActivity() {
             fun bindItem(position: Int) {
                 val coin = coins[position]
                 itemView.coinNameTv.text = coin.name
-                itemView.coinRateTv.text = coin.price?.toString() ?: ""
+                itemView.coinRateTv.text = coin.price?.format() ?: ""
                 itemView.coinRateUnitTv.text = "${Conf.BASE_CURRENCY}/${coin.ticker}"
                 itemView.coinLogoIv.loadImg(Conf.BASE_IMAGE_URL + coin.imageUrl)
                 itemView.setOnLongClickListener { showDeleteDialog(coin.ticker, coin.name); true }
