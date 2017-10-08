@@ -18,7 +18,6 @@ import zmuzik.cryptobserve.Conf
 import zmuzik.cryptobserve.R
 import zmuzik.cryptobserve.di.ViewModelFactory
 import zmuzik.cryptobserve.inflate
-import zmuzik.cryptobserve.repo.entities.Coin
 import zmuzik.cryptobserve.repo.entities.FavCoinListItem
 import zmuzik.cryptobserve.setVisible
 import javax.inject.Inject
@@ -41,7 +40,7 @@ class CoinListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.maybeRequestAllCoinsUpdate()
+        viewModel.maybeRequestUpdates()
     }
 
     private fun onCoinsLoaded(coins: List<FavCoinListItem>) {

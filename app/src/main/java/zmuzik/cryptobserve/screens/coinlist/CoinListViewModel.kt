@@ -10,7 +10,7 @@ import javax.inject.Inject
 class CoinListViewModel
 @Inject constructor(val repo: Repo) : ViewModel() {
 
-    fun maybeRequestAllCoinsUpdate() {
+    fun maybeRequestUpdates() {
         repo.maybeRequestCoinListUpdate()
         repo.maybeRequestFavPricesUpdate()
     }
