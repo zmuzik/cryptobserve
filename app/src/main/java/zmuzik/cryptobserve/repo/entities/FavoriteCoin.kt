@@ -6,7 +6,8 @@ import android.arch.persistence.room.PrimaryKey
 @Entity
 data class FavoriteCoin(
         @PrimaryKey
-        var ticker: String
+        var ticker: String,
+        var currentPrice: Double?
 ) {
-    constructor() : this("")
+    constructor() : this("", null)
 }

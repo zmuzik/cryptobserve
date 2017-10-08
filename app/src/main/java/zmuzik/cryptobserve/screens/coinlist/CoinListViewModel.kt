@@ -3,15 +3,18 @@ package zmuzik.cryptobserve.screens.coinlist
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import zmuzik.cryptobserve.repo.Repo
-import zmuzik.cryptobserve.repo.entities.Coin
+import zmuzik.cryptobserve.repo.entities.FavCoinListItem
 import javax.inject.Inject
 
 
 class CoinListViewModel
 @Inject constructor(val repo: Repo) : ViewModel() {
 
-    fun maybeRequestAllCoinsUpdate() = repo.maybeRequestAllCoinsUpdate()
+    fun maybeRequestAllCoinsUpdate() {
+        repo.maybeRequestCoinListUpdate()
+        repo.maybeRequestFavPricesUpdate()
+    }
 
-    fun getAllFavoriteCoins(): LiveData<List<Coin>> = repo.getAllFavoriteCoins()
+    fun getAllFavoriteCoins(): LiveData<List<FavCoinListItem>> = repo.getAllFavoriteCoins()
 
 }

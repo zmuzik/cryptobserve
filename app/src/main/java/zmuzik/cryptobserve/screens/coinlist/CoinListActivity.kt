@@ -14,10 +14,12 @@ import android.view.ViewGroup
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_coins_list.*
 import kotlinx.android.synthetic.main.item_coin_list.view.*
+import zmuzik.cryptobserve.Conf
 import zmuzik.cryptobserve.R
 import zmuzik.cryptobserve.di.ViewModelFactory
 import zmuzik.cryptobserve.inflate
 import zmuzik.cryptobserve.repo.entities.Coin
+import zmuzik.cryptobserve.repo.entities.FavCoinListItem
 import zmuzik.cryptobserve.setVisible
 import javax.inject.Inject
 
@@ -42,7 +44,7 @@ class CoinListActivity : AppCompatActivity() {
         viewModel.maybeRequestAllCoinsUpdate()
     }
 
-    private fun onCoinsLoaded(coins: List<Coin>) {
+    private fun onCoinsLoaded(coins: List<FavCoinListItem>) {
         coinsListRv.setVisible(!coins.isEmpty())
         emptyListPlaceholder.setVisible(coins.isEmpty())
         if (coinsListRv.adapter == null) {
@@ -67,18 +69,18 @@ class CoinListActivity : AppCompatActivity() {
         }
     }
 
-    fun showInfoDialog() {
+    private fun showInfoDialog() {
         AlertDialog.Builder(this)
                 .setTitle(getString(R.string.info))
                 .setMessage(getString(R.string.app_info_message))
-                .setPositiveButton(getString(android.R.string.ok)) { dialog, bt -> dialog.dismiss() }
+                .setPositiveButton(getString(android.R.string.ok)) { dialog, _ -> dialog.dismiss() }
                 .show()
     }
 
-    inner class CoinListAdapter(var coins: List<Coin>) : RecyclerView.Adapter<CoinListAdapter.ViewHolder>() {
+    inner class CoinListAdapter(var coins: List<FavCoinListItem>) : RecyclerView.Adapter<CoinListAdapter.ViewHolder>() {
 
-        fun replaceData(newNotes: List<Coin>) {
-            coins = newNotes
+        fun replaceData(newCoins: List<FavCoinListItem>) {
+            coins = newCoins
             notifyDataSetChanged()
         }
 
@@ -92,7 +94,9 @@ class CoinListActivity : AppCompatActivity() {
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             fun bindItem(position: Int) {
                 val coin = coins[position]
-                itemView.coinNameTv.text = coin.ticker
+                itemView.coinNameTv.text = coin.name
+                itemView.coinRateTv.text = coin.price?.toString() ?: ""
+                itemView.coinRateUnitTv.text = "${Conf.BASE_CURRENCY}/${coin.ticker}"
             }
         }
     }

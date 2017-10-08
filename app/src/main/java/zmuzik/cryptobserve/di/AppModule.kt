@@ -19,6 +19,7 @@ import zmuzik.cryptobserve.App
 import zmuzik.cryptobserve.BuildConfig
 import zmuzik.cryptobserve.Conf
 import zmuzik.cryptobserve.repo.*
+import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -30,7 +31,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideRepo(db: Db, prefs: Prefs, api: Api): Repo = DefaultRepo(db, prefs, api)
+    fun provideRepo(db: Db, prefs: Prefs, coinListApi: CoinListApi, pricingApi: PricingApi): Repo
+            = DefaultRepo(db, prefs, coinListApi, pricingApi)
 
     @Provides
     @Singleton
@@ -58,18 +60,37 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(gson: Gson, client: OkHttpClient): Retrofit {
+    @Named("CoinList")
+    fun provideCoinListRetrofit(gson: Gson, client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(Conf.API_ROOT)
+                .baseUrl(Conf.COIN_LIST_API_ROOT)
                 .client(client)
                 .build()
     }
 
     @Provides
     @Singleton
-    fun provideApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
+    @Named("Pricing")
+    fun providePricingRetrofit(gson: Gson, client: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .baseUrl(Conf.PRICING_API_ROOT)
+                .client(client)
+                .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCoinListApi(@Named("CoinList") retrofit: Retrofit): CoinListApi
+            = retrofit.create(CoinListApi::class.java)
+
+    @Provides
+    @Singleton
+    fun providePricingApi(@Named("Pricing") retrofit: Retrofit): PricingApi
+            = retrofit.create(PricingApi::class.java)
 
     @Provides
     @Singleton
