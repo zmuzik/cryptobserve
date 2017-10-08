@@ -17,7 +17,7 @@ interface CoinDao {
     @Query("SELECT Coin.ticker as ticker, Coin.coinName as name, Coin.imageUrl as imageUrl, FavoriteCoin.currentPrice as price " +
             "FROM Coin, FavoriteCoin " +
             "WHERE Coin.ticker = FavoriteCoin.ticker " +
-            "ORDER BY sortOrder")
+            "ORDER BY coinName")
     fun getAllFavorites(): LiveData<List<FavCoinListItem>>
 
     @Query("SELECT * FROM Coin where id = :arg0")
