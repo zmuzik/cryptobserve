@@ -12,7 +12,7 @@ class CoinPickerViewModel
 
     fun maybeRequestUpdate() = repo.maybeRequestCoinListUpdate()
 
-    fun getAllCoins(): LiveData<List<Coin>> = repo.getAllCoins()
+    fun getAllCoinsExFavorite(): LiveData<List<Coin>> = repo.getAllCoinsExFavorite()
 
     fun addCoinToFavorites(ticker: String) = repo.addCoinToFavorites(ticker)
 }

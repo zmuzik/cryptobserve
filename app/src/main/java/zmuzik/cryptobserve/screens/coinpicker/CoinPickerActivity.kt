@@ -29,7 +29,7 @@ class CoinPickerActivity : AppCompatActivity() {
         coinsListRv.layoutManager = LinearLayoutManager(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CoinPickerViewModel::class.java)
-        viewModel.getAllCoins().observe(this, Observer { it?.let { onCoinsLoaded(it) } })
+        viewModel.getAllCoinsExFavorite().observe(this, Observer { it?.let { onCoinsLoaded(it) } })
     }
 
     override fun onResume() {

@@ -63,6 +63,8 @@ class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
 
     override fun getAllCoins(): LiveData<List<Coin>> = db.coinDao().getAll()
 
+    override fun getAllCoinsExFavorite(): LiveData<List<Coin>> = db.coinDao().getAllExFavorite()
+
     override fun getAllFavoriteCoins(): LiveData<List<FavCoinListItem>> = db.coinDao().getAllFavorites()
 
     override fun addCoinToFavorites(ticker: String) {
