@@ -12,7 +12,7 @@ class CoinListViewModel
 
     fun maybeRequestUpdates() {
         repo.maybeRequestCoinListUpdate()
-        repo.maybeRequestFavPricesUpdate()
+        repo.maybeRequestFavPricesUpdate(false)
     }
 
     fun getAllFavoriteCoins(): LiveData<List<FavCoinListItem>> = repo.getAllFavoriteCoins()

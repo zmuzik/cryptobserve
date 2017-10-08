@@ -64,11 +64,16 @@ class CoinPickerActivity : AppCompatActivity() {
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             fun bindItem(position: Int) {
                 val coin = coins[position]
+                //val res = itemView.resources
                 itemView.coinNameTv.text = coin.coinName
                 itemView.tickerTv.text = coin.ticker
-                itemView.algorithmTv.text = coin.algorithm
-                itemView.proofTypeTv.text = coin.proofType
+                //itemView.algorithmTv.text = res.getString(R.string.algorithm, coin.algorithm)
+                //itemView.proofTypeTv.text = res.getString(R.string.proof_type, coin.proofType)
                 itemView.coinLogoIv.loadImg(Conf.BASE_IMAGE_URL + coin.imageUrl)
+                itemView.setOnClickListener {
+                    viewModel.addCoinToFavorites(coin.ticker)
+                    finish()
+                }
             }
         }
     }

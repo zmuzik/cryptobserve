@@ -14,4 +14,5 @@ class CoinPickerViewModel
 
     fun getAllCoins(): LiveData<List<Coin>> = repo.getAllCoins()
 
+    fun addCoinToFavorites(ticker: String) = repo.addCoinToFavorites(ticker)
 }

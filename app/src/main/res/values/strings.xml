@@ -2,4 +2,7 @@
     <string name="app_name">CryptObserve</string>
     <string name="info">Info</string>
     <string name="app_info_message">Data from https://www.cryptocompare.com/</string>
+    <string name="algorithm">Algorithm: %s</string>
+    <string name="proof_type">Proof Type: %s</string>
+
 </resources>

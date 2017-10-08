@@ -9,10 +9,12 @@ interface Repo {
 
     fun maybeRequestCoinListUpdate()
 
-    fun maybeRequestFavPricesUpdate()
+    fun maybeRequestFavPricesUpdate(force: Boolean)
 
     fun getAllCoins(): LiveData<List<Coin>>
 
     fun getAllFavoriteCoins(): LiveData<List<FavCoinListItem>>
+
+    fun addCoinToFavorites(ticker: String)
 
 }

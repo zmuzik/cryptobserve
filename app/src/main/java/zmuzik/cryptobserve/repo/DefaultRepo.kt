@@ -42,8 +42,8 @@ class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
                 })
     }
 
-    override fun maybeRequestFavPricesUpdate() {
-        if (prefs.lastFavPricesUpdate + Conf.FAV_PRICES_UPDATE_INTERVAL > Time.now) return
+    override fun maybeRequestFavPricesUpdate(force: Boolean) {
+        if (prefs.lastFavPricesUpdate + Conf.FAV_PRICES_UPDATE_INTERVAL > Time.now && !force) return
 
         bg {
             val tickers = db.coinDao().getFavoriteCoinsSync().joinToString(separator = ",") { it.ticker }
@@ -64,4 +64,11 @@ class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
     override fun getAllCoins(): LiveData<List<Coin>> = db.coinDao().getAll()
 
     override fun getAllFavoriteCoins(): LiveData<List<FavCoinListItem>> = db.coinDao().getAllFavorites()
+
+    override fun addCoinToFavorites(ticker: String) {
+        bg {
+            db.coinDao().insertFavorite(FavoriteCoin(ticker, null))
+            maybeRequestFavPricesUpdate(true)
+        }
+    }
 }
