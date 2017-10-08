@@ -2,6 +2,7 @@ package zmuzik.cryptobserve.screens.coinlist
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -12,13 +13,14 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_coins_list.*
-import kotlinx.android.synthetic.main.item_coin_list.view.*
+import kotlinx.android.synthetic.main.activity_coin_list.*
+import kotlinx.android.synthetic.main.item_fav_coin_list.view.*
 import zmuzik.cryptobserve.Conf
 import zmuzik.cryptobserve.R
 import zmuzik.cryptobserve.di.ViewModelFactory
 import zmuzik.cryptobserve.inflate
 import zmuzik.cryptobserve.repo.entities.FavCoinListItem
+import zmuzik.cryptobserve.screens.coinpicker.CoinPickerActivity
 import zmuzik.cryptobserve.setVisible
 import javax.inject.Inject
 
@@ -30,9 +32,11 @@ class CoinListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_coins_list)
+        setContentView(R.layout.activity_coin_list)
         setSupportActionBar(toolbar)
         coinsListRv.layoutManager = LinearLayoutManager(this)
+
+        fab.setOnClickListener { startActivity(Intent(this, CoinPickerActivity::class.java)) }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CoinListViewModel::class.java)
         viewModel.getAllFavoriteCoins().observe(this, Observer { it?.let { onCoinsLoaded(it) } })
@@ -47,9 +51,9 @@ class CoinListActivity : AppCompatActivity() {
         coinsListRv.setVisible(!coins.isEmpty())
         emptyListPlaceholder.setVisible(coins.isEmpty())
         if (coinsListRv.adapter == null) {
-            coinsListRv.adapter = CoinListAdapter(coins)
+            coinsListRv.adapter = FavCoinListAdapter(coins)
         } else {
-            (coinsListRv.adapter as CoinListAdapter).replaceData(coins)
+            (coinsListRv.adapter as FavCoinListAdapter).replaceData(coins)
         }
     }
 
@@ -76,7 +80,7 @@ class CoinListActivity : AppCompatActivity() {
                 .show()
     }
 
-    inner class CoinListAdapter(var coins: List<FavCoinListItem>) : RecyclerView.Adapter<CoinListAdapter.ViewHolder>() {
+    inner class FavCoinListAdapter(var coins: List<FavCoinListItem>) : RecyclerView.Adapter<FavCoinListAdapter.ViewHolder>() {
 
         fun replaceData(newCoins: List<FavCoinListItem>) {
             coins = newCoins
@@ -84,7 +88,7 @@ class CoinListActivity : AppCompatActivity() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-                ViewHolder(parent.inflate(R.layout.item_coin_list))
+                ViewHolder(parent.inflate(R.layout.item_fav_coin_list))
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bindItem(position)
 

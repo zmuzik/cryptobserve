@@ -7,6 +7,10 @@ object Conf {
 
     val PRICING_API_ROOT = "https://min-api.cryptocompare.com/data/"
 
+    val BASE_IMAGE_URL = "https://www.cryptocompare.com"
+
+    val BASE_LINK_URL = "https://www.cryptocompare.com"
+
     val COIN_LIST_UPDATE_INTERVAL = Time.DAY
 
     val FAV_PRICES_UPDATE_INTERVAL = Time.MINUTE

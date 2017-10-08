@@ -6,6 +6,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import zmuzik.cryptobserve.screens.coinlist.CoinListViewModel
+import zmuzik.cryptobserve.screens.coinpicker.CoinPickerViewModel
 
 @Module
 abstract class ViewModelModule {
@@ -17,5 +18,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CoinListViewModel::class)
     internal abstract fun bindCoinListViewModel(coinListViewModel: CoinListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CoinPickerViewModel::class)
+    internal abstract fun bindCoinPickerViewModel(coinPickerViewModel: CoinPickerViewModel): ViewModel
 
 }

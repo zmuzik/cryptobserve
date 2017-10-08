@@ -12,24 +12,17 @@
         android:layout_alignParentTop="true"/>
 
     <TextView
-        android:id="@+id/tickerTv"
+        android:id="@+id/coinRateUnitTv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"/>
 
     <TextView
-        android:id="@+id/algorithmTv"
+        android:id="@+id/coinRateTv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/proofTypeTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <ImageView
-        android:id="@+id/coinLogoIv"
-        android:layout_width="@dimen/coin_logo_size"
-        android:layout_height="@dimen/coin_logo_size"/>
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/coinRateUnitTv"/>
 
 
 </RelativeLayout>
