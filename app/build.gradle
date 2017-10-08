@@ -63,6 +63,9 @@ ext {
     supportLibVersion = "26.1.0"
     archComponentsVersion = "1.0.0-alpha9"
     daggerVersion = "2.11"
+    retrofitVersion = "2.3.0"
+    rxJavaVersion = "2.1.1"
+    rxAndroidVersion = "2.0.1"
 }
 
 dependencies {
@@ -89,6 +92,19 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$project.daggerVersion"
     implementation "com.google.dagger:dagger:$project.daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$project.daggerVersion"
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.0'
+
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.8.1"
+
+    // rx java
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
 
     //leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'

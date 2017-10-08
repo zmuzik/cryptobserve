@@ -22,8 +22,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/coinsListRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/appBar"/>
+
+    <TextView
+        android:id="@+id/emptyListPlaceholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/appBar"/>

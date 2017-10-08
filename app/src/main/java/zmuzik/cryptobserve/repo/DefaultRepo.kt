@@ -1,14 +1,23 @@
 package zmuzik.cryptobserve.repo
 
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
+import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import zmuzik.cryptobserve.repo.entities.Coin
 
 
-class DefaultRepo : Repo {
+class DefaultRepo(val db: Db, val api: Api) : Repo {
 
-    override fun getAllCoins(): LiveData<List<Coin>> {
-        return MutableLiveData()
+    override fun maybeRequestAllCoinsUpdate() {
+        api.coinlist()
+                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ result ->
+                    db.coinDao().insertAll(result.data.values.toList())
+                }, { error ->
+                    Timber.e(error)
+                })
     }
 
+    override fun getAllCoins(): LiveData<List<Coin>> = db.coinDao().getAll()
 }

@@ -10,5 +10,7 @@ import javax.inject.Inject
 class CoinListViewModel
 @Inject constructor(val repo: Repo) : ViewModel() {
 
+    fun maybeRequestAllCoinsUpdate() = repo.maybeRequestAllCoinsUpdate()
+
     fun getAllCoins(): LiveData<List<Coin>> = repo.getAllCoins()
 }
