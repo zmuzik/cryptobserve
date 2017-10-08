@@ -15,13 +15,10 @@ import android.view.ViewGroup
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_coin_list.*
 import kotlinx.android.synthetic.main.item_fav_coin_list.view.*
-import zmuzik.cryptobserve.Conf
-import zmuzik.cryptobserve.R
+import zmuzik.cryptobserve.*
 import zmuzik.cryptobserve.di.ViewModelFactory
-import zmuzik.cryptobserve.inflate
 import zmuzik.cryptobserve.repo.entities.FavCoinListItem
 import zmuzik.cryptobserve.screens.coinpicker.CoinPickerActivity
-import zmuzik.cryptobserve.setVisible
 import javax.inject.Inject
 
 class CoinListActivity : AppCompatActivity() {
@@ -100,6 +97,7 @@ class CoinListActivity : AppCompatActivity() {
                 itemView.coinNameTv.text = coin.name
                 itemView.coinRateTv.text = coin.price?.toString() ?: ""
                 itemView.coinRateUnitTv.text = "${Conf.BASE_CURRENCY}/${coin.ticker}"
+                itemView.coinLogoIv.loadImg(Conf.BASE_IMAGE_URL + coin.imageUrl)
             }
         }
     }

@@ -12,7 +12,8 @@ data class CoinListResponse(
 data class FavCoinListItem(
         var ticker: String,
         var name: String,
+        var imageUrl: String,
         var price: Double?
 ) {
-    constructor() : this("", "", null)
+    constructor() : this("", "", "", null)
 }

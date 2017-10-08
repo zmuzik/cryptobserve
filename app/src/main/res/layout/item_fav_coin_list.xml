@@ -2,27 +2,39 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="@dimen/gap">
 
-    <TextView
-        android:id="@+id/coinNameTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/coinLogoIv"
+        android:layout_width="@dimen/coin_logo_size"
+        android:layout_height="@dimen/coin_logo_size"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"/>
 
     <TextView
-        android:id="@+id/coinRateUnitTv"
+        android:id="@+id/coinNameTv"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/gap"
+        android:layout_toRightOf="@id/coinLogoIv"/>
+
+    <TextView
+        android:id="@+id/coinRateTv"
+        style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"/>
 
     <TextView
-        android:id="@+id/coinRateTv"
+        android:id="@+id/coinRateUnitTv"
+        style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/coinRateUnitTv"/>
-
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/coinRateTv"/>
 
 </RelativeLayout>

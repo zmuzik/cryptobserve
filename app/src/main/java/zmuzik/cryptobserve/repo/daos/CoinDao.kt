@@ -14,7 +14,7 @@ interface CoinDao {
     @Query("SELECT * FROM Coin where ticker not in (select ticker from FavoriteCoin) order by coinName")
     fun getAllExFavorite(): LiveData<List<Coin>>
 
-    @Query("SELECT Coin.ticker as ticker, Coin.coinName as name, FavoriteCoin.currentPrice as price " +
+    @Query("SELECT Coin.ticker as ticker, Coin.coinName as name, Coin.imageUrl as imageUrl, FavoriteCoin.currentPrice as price " +
             "FROM Coin, FavoriteCoin " +
             "WHERE Coin.ticker = FavoriteCoin.ticker " +
             "ORDER BY sortOrder")
