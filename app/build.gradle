@@ -60,6 +60,7 @@ kapt {
 
 ext {
     supportLibVersion = "26.1.0"
+    archComponentsVersion = "1.0.0-alpha9"
     daggerVersion = "2.11"
 }
 
@@ -71,6 +72,16 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:design:$supportLibVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    // lifecycles, livedata, viewmodel
+    implementation "android.arch.lifecycle:runtime:$archComponentsVersion"
+    implementation "android.arch.lifecycle:extensions:$archComponentsVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$archComponentsVersion"
+
+    // room
+    implementation "android.arch.persistence.room:runtime:$archComponentsVersion"
+    implementation "android.arch.persistence.room:rxjava2:$archComponentsVersion"
+    kapt "android.arch.persistence.room:compiler:$archComponentsVersion"
 
     //dagger
     kapt "com.google.dagger:dagger-compiler:$project.daggerVersion"
