@@ -4,11 +4,12 @@ import android.app.Activity
 import android.app.Application
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
 import timber.log.Timber
 import zmuzik.cryptobserve.di.DaggerAppComponent
 import javax.inject.Inject
 
-class App : Application() {
+class App : Application(), HasActivityInjector {
 
     @Inject lateinit var activityInjector: DispatchingAndroidInjector<Activity>
 
@@ -26,4 +27,6 @@ class App : Application() {
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
 
     }
+
+    override fun activityInjector(): DispatchingAndroidInjector<Activity>? = activityInjector
 }
