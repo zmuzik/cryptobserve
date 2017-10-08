@@ -47,17 +47,19 @@ class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
 
         bg {
             val tickers = db.coinDao().getFavoriteCoinsSync().joinToString(separator = ",") { it.ticker }
-            pricingApi.favsPrices(tickers, Conf.BASE_CURRENCY)
-                    .observeOn(Schedulers.io())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe({ result ->
-                        db.coinDao().insertFavorites(result.flatMap {
-                            listOf(FavoriteCoin(it.key, it.value[Conf.BASE_CURRENCY]?.toDouble()))
+            if (!tickers.isEmpty()) {
+                pricingApi.favsPrices(tickers, Conf.BASE_CURRENCY)
+                        .observeOn(Schedulers.io())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({ result ->
+                            db.coinDao().insertFavorites(result.flatMap {
+                                listOf(FavoriteCoin(it.key, it.value[Conf.BASE_CURRENCY]?.toDouble()))
+                            })
+                            prefs.lastFavPricesUpdate = Time.now
+                        }, { error ->
+                            Timber.e(error)
                         })
-                        prefs.lastFavPricesUpdate = Time.now
-                    }, { error ->
-                        Timber.e(error)
-                    })
+            }
         }
     }
 
@@ -73,4 +75,6 @@ class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
             maybeRequestFavPricesUpdate(true)
         }
     }
+
+    override fun deleteFavCoin(ticker: String) = bg { db.coinDao().deleteFavCoin(ticker) }
 }

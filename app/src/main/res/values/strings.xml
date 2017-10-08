@@ -4,5 +4,6 @@
     <string name="app_info_message">Data from https://www.cryptocompare.com/</string>
     <string name="algorithm">Algorithm: %s</string>
     <string name="proof_type">Proof Type: %s</string>
+    <string name="q_remove_x_from_fav">Do you want to remove %s from the list?</string>
 
 </resources>

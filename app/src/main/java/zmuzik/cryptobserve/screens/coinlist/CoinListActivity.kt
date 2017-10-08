@@ -77,6 +77,14 @@ class CoinListActivity : AppCompatActivity() {
                 .show()
     }
 
+    private fun showDeleteDialog(ticker: String, name: String) {
+        AlertDialog.Builder(this)
+                .setMessage(getString(R.string.q_remove_x_from_fav, name))
+                .setNegativeButton(getString(android.R.string.cancel)) { dialog, _ -> dialog.dismiss() }
+                .setPositiveButton(getString(android.R.string.ok)) { _, _ -> viewModel.deleteFavCoin(ticker) }
+                .show()
+    }
+
     inner class FavCoinListAdapter(var coins: List<FavCoinListItem>) : RecyclerView.Adapter<FavCoinListAdapter.ViewHolder>() {
 
         fun replaceData(newCoins: List<FavCoinListItem>) {
@@ -98,6 +106,7 @@ class CoinListActivity : AppCompatActivity() {
                 itemView.coinRateTv.text = coin.price?.toString() ?: ""
                 itemView.coinRateUnitTv.text = "${Conf.BASE_CURRENCY}/${coin.ticker}"
                 itemView.coinLogoIv.loadImg(Conf.BASE_IMAGE_URL + coin.imageUrl)
+                itemView.setOnLongClickListener { showDeleteDialog(coin.ticker, coin.name); true }
             }
         }
     }

@@ -46,4 +46,8 @@ interface CoinDao {
 
     @Delete
     fun delete(device: Coin)
+
+    @Query("DELETE FROM FavoriteCoin where ticker = :arg0")
+    fun deleteFavCoin(ticker: String)
+
 }

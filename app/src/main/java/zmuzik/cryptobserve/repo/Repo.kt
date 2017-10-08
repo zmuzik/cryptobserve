@@ -19,4 +19,6 @@ interface Repo {
 
     fun addCoinToFavorites(ticker: String)
 
+    fun deleteFavCoin(ticker: String)
+
 }

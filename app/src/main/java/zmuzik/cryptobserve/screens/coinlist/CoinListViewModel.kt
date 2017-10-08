@@ -17,4 +17,6 @@ class CoinListViewModel
 
     fun getAllFavoriteCoins(): LiveData<List<FavCoinListItem>> = repo.getAllFavoriteCoins()
 
+    fun deleteFavCoin(ticker: String) = repo.deleteFavCoin(ticker)
+
 }
