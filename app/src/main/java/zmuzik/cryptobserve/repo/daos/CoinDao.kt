@@ -23,6 +23,9 @@ interface CoinDao {
     @Query("SELECT * FROM Coin where id = :arg0")
     fun getByIdSync(id: String): Coin?
 
+    @Query("SELECT * FROM FavoriteCoin")
+    fun getFavoriteCoinsSync(): List<FavoriteCoin>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(device: Coin)
 

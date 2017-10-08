@@ -45,18 +45,20 @@ class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
     override fun maybeRequestFavPricesUpdate() {
         if (prefs.lastFavPricesUpdate + Conf.FAV_PRICES_UPDATE_INTERVAL > Time.now) return
 
-        val tickers = "BTC,ETH"
-        pricingApi.favsPrices(tickers, Conf.BASE_CURRENCY)
-                .observeOn(Schedulers.io())
-                .subscribeOn(Schedulers.io())
-                .subscribe({ result ->
-                    db.coinDao().insertFavorites(result.flatMap {
-                        listOf(FavoriteCoin(it.key, it.value[Conf.BASE_CURRENCY]?.toDouble()))
+        bg {
+            val tickers = db.coinDao().getFavoriteCoinsSync().joinToString(separator = ",") { it.ticker }
+            pricingApi.favsPrices(tickers, Conf.BASE_CURRENCY)
+                    .observeOn(Schedulers.io())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe({ result ->
+                        db.coinDao().insertFavorites(result.flatMap {
+                            listOf(FavoriteCoin(it.key, it.value[Conf.BASE_CURRENCY]?.toDouble()))
+                        })
+                        prefs.lastFavPricesUpdate = Time.now
+                    }, { error ->
+                        Timber.e(error)
                     })
-                    prefs.lastFavPricesUpdate = Time.now
-                }, { error ->
-                    Timber.e(error)
-                })
+        }
     }
 
     override fun getAllCoins(): LiveData<List<Coin>> = db.coinDao().getAll()
