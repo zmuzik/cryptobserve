@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import zmuzik.cryptobserve.screens.coinslist.CoinsListViewModel
+import zmuzik.cryptobserve.screens.coinlist.CoinListViewModel
 
 @Module
 abstract class ViewModelModule {
@@ -15,7 +15,7 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(CoinsListViewModel::class)
-    internal abstract fun bindCoinsListViewModel(coinsListViewModel: CoinsListViewModel): ViewModel
+    @ViewModelKey(CoinListViewModel::class)
+    internal abstract fun bindCoinListViewModel(coinListViewModel: CoinListViewModel): ViewModel
 
 }
