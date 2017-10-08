@@ -13,8 +13,8 @@ class DefaultRepo(val db: Db, val prefs: Prefs, val api: Api) : Repo {
     init {
         if (!prefs.isDbInitialized) {
             bg {
-                db.coinDao().inserFav(FavoriteCoin("BTC"))
-                db.coinDao().inserFav(FavoriteCoin("ETH"))
+                db.coinDao().insertFavorite(FavoriteCoin("BTC"))
+                db.coinDao().insertFavorite(FavoriteCoin("ETH"))
                 prefs.isDbInitialized = true
             }
         }

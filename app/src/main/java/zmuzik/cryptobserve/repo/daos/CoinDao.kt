@@ -26,10 +26,10 @@ interface CoinDao {
     fun insertAll(devices: List<Coin>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun inserFav(favorites: List<FavoriteCoin>)
+    fun insertFavorite(favorites: List<FavoriteCoin>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun inserFav(fav: FavoriteCoin)
+    fun insertFavorite(favorite: FavoriteCoin)
 
     @Update
     fun update(device: Coin)
