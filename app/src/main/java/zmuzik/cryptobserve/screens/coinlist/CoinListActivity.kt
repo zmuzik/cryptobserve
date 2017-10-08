@@ -2,6 +2,7 @@ package zmuzik.cryptobserve.screens.coinlist
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.item_fav_coin_list.view.*
 import zmuzik.cryptobserve.*
 import zmuzik.cryptobserve.di.ViewModelFactory
 import zmuzik.cryptobserve.repo.entities.FavCoinListItem
+import zmuzik.cryptobserve.screens.coindetail.CoinDetailActivity
 import zmuzik.cryptobserve.screens.coinpicker.CoinPickerActivity
 import javax.inject.Inject
 
@@ -85,6 +87,13 @@ class CoinListActivity : AppCompatActivity() {
                 .show()
     }
 
+    private fun openDetail(coin: FavCoinListItem) {
+        val intent = Intent(this, CoinDetailActivity::class.java)
+        intent.putExtra(Keys.COIN, coin)
+        startActivity(intent)
+    }
+
+
     inner class FavCoinListAdapter(var coins: List<FavCoinListItem>) : RecyclerView.Adapter<FavCoinListAdapter.ViewHolder>() {
 
         fun replaceData(newCoins: List<FavCoinListItem>) {
@@ -107,6 +116,7 @@ class CoinListActivity : AppCompatActivity() {
                 itemView.coinRateUnitTv.text = "${Conf.BASE_CURRENCY}/${coin.ticker}"
                 itemView.coinLogoIv.loadImg(Conf.BASE_IMAGE_URL + coin.imageUrl)
                 itemView.setOnLongClickListener { showDeleteDialog(coin.ticker, coin.name); true }
+                itemView.setOnClickListener { openDetail(coin) }
             }
         }
     }

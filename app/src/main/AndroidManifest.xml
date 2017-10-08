@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".screens.coinpicker.CoinPickerActivity"/>
+        <activity android:name=".screens.coindetail.CoinDetailActivity"/>
     </application>
 
 </manifest>

@@ -21,4 +21,6 @@ interface Repo {
 
     fun deleteFavCoin(ticker: String)
 
+    fun getCoin(id : String): LiveData<Coin>
+
 }

@@ -1,5 +1,8 @@
 package zmuzik.cryptobserve.repo.entities
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 
 data class CoinListResponse(
         var response: String,
@@ -9,11 +12,13 @@ data class CoinListResponse(
         var data: HashMap<String, Coin>
 )
 
+@Parcelize
 data class FavCoinListItem(
+        var id: String,
         var ticker: String,
         var name: String,
         var imageUrl: String,
         var price: Double?
-) {
-    constructor() : this("", "", "", null)
+) : Parcelable {
+    constructor() : this("", "", "", "", null)
 }

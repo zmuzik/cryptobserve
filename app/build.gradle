@@ -59,6 +59,10 @@ kapt {
     generateStubs = true
 }
 
+androidExtensions {
+    experimental = true
+}
+
 ext {
     supportLibVersion = "26.1.0"
     archComponentsVersion = "1.0.0-alpha9"

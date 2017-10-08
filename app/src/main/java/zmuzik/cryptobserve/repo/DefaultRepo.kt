@@ -77,4 +77,6 @@ class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
     }
 
     override fun deleteFavCoin(ticker: String) = bg { db.coinDao().deleteFavCoin(ticker) }
+
+    override fun getCoin(id : String): LiveData<Coin> = db.coinDao().getById(id)
 }
