@@ -3,9 +3,12 @@ package zmuzik.cryptobserve.screens.coinlist
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import dagger.android.AndroidInjection
@@ -28,7 +31,6 @@ class CoinListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coins_list)
         setSupportActionBar(toolbar)
-
         coinsListRv.layoutManager = LinearLayoutManager(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CoinListViewModel::class.java)
@@ -50,17 +52,28 @@ class CoinListActivity : AppCompatActivity() {
         }
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        menuInflater.inflate(R.menu.menu_main, menu)
-//        return true
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return when (item.itemId) {
-//            R.id.action_settings -> true
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_info -> {
+                showInfoDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun showInfoDialog() {
+        AlertDialog.Builder(this)
+                .setTitle(getString(R.string.info))
+                .setMessage(getString(R.string.app_info_message))
+                .setPositiveButton(getString(android.R.string.ok)) { dialog, bt -> dialog.dismiss() }
+                .show()
+    }
 
     inner class CoinListAdapter(var coins: List<Coin>) : RecyclerView.Adapter<CoinListAdapter.ViewHolder>() {
 
