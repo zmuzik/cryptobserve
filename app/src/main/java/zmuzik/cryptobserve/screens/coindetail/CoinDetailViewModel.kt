@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import zmuzik.cryptobserve.repo.Repo
 import zmuzik.cryptobserve.repo.entities.Coin
-import zmuzik.cryptobserve.repo.entities.MinutePrice
+import zmuzik.cryptobserve.repo.entities.HistPrice
 import javax.inject.Inject
 
 
@@ -20,6 +20,6 @@ class CoinDetailViewModel
 
     fun getCoin(): LiveData<Coin> = repo.getCoin(coinId)
 
-    fun getPricesForToday(): LiveData<List<MinutePrice>> = repo.getPricesForToday(ticker)
+    fun getPricesForToday(): LiveData<List<HistPrice>> = repo.getPricesForToday(ticker)
 
 }

@@ -23,12 +23,12 @@ data class CoinListResponse(
         var data: HashMap<String, Coin>
 )
 
-data class MinutePricesResponse(
+data class HistPricesResponse(
         var response: String,
         var message: String,
         var type: Int,
         var aggregated: Boolean,
-        var data: List<MinutePrice>,
+        var data: List<HistPrice>,
         var firstValueInArray: Boolean,
         var timeTo: Long,
         var timeFrom: Long

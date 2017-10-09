@@ -21,7 +21,7 @@ import zmuzik.cryptobserve.*
 import zmuzik.cryptobserve.di.ViewModelFactory
 import zmuzik.cryptobserve.repo.entities.Coin
 import zmuzik.cryptobserve.repo.entities.FavCoinListItem
-import zmuzik.cryptobserve.repo.entities.MinutePrice
+import zmuzik.cryptobserve.repo.entities.HistPrice
 import javax.inject.Inject
 
 
@@ -57,7 +57,7 @@ class CoinDetailActivity : AppCompatActivity() {
         viewModel.maybeRequestUpdate()
     }
 
-    private fun onTodayPricesLoaded(prices: List<MinutePrice>) {
+    private fun onTodayPricesLoaded(prices: List<HistPrice>) {
         if (prices.isEmpty()) return
 
         val yValues = ArrayList<CandleEntry>()
@@ -92,7 +92,7 @@ class CoinDetailActivity : AppCompatActivity() {
         coinNameTv.text = coin.fullName
     }
 
-    private fun bindPrice(price: MinutePrice) {
+    private fun bindPrice(price: HistPrice) {
         with(price) {
             timeFrameTv.text = "5 min"
             timeTv.text = time.toDateTime()

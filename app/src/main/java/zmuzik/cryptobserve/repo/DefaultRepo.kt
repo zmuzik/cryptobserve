@@ -9,7 +9,7 @@ import zmuzik.cryptobserve.Time
 import zmuzik.cryptobserve.repo.entities.Coin
 import zmuzik.cryptobserve.repo.entities.FavCoinListItem
 import zmuzik.cryptobserve.repo.entities.FavoriteCoin
-import zmuzik.cryptobserve.repo.entities.MinutePrice
+import zmuzik.cryptobserve.repo.entities.HistPrice
 
 
 class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
@@ -86,7 +86,7 @@ class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
                 .observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->
-                    val data: List<MinutePrice> = result.data
+                    val data: List<HistPrice> = result.data
                     data.forEach {
                         it.ticker = ticker
                         it.time = it.time * 1000L
@@ -97,7 +97,7 @@ class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
                 })
     }
 
-    override fun getPricesForToday(ticker: String): LiveData<List<MinutePrice>> {
+    override fun getPricesForToday(ticker: String): LiveData<List<HistPrice>> {
         val from = (Time.now - Time.DAY) / 1000L //unix timestamp
         return db.histPriceDao().getMinutePrices(ticker, from)
     }

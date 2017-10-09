@@ -3,9 +3,10 @@ package zmuzik.cryptobserve.repo.entities
 import android.arch.persistence.room.Entity
 import com.google.gson.annotations.SerializedName
 
-@Entity(primaryKeys = arrayOf("ticker", "time"))
-data class MinutePrice(
+@Entity(primaryKeys = arrayOf("ticker", "timeFrame", "time"))
+data class HistPrice(
         var ticker: String,
+        var timeFrame: String,
         @SerializedName("time")
         var time: Long,
         @SerializedName("open")
@@ -20,5 +21,5 @@ data class MinutePrice(
         var volumeFrom: Double,
         @SerializedName("volumeto")
         var volumeTo: Double) {
-    constructor() : this("", 0L, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+    constructor() : this("", "", 0L, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
 }
