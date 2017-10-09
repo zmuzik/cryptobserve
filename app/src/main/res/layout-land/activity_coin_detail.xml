@@ -156,7 +156,7 @@
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.CandleStickChart
-        android:id="@+id/minuteChart"
+        android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/buttonPanel"

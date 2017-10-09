@@ -43,19 +43,23 @@ class CoinDetailActivity : AppCompatActivity() {
         }
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(CoinDetailViewModel::class.java)
-
         intent.getParcelableExtra<FavCoinListItem>(Keys.COIN)?.let {
             viewModel.coinId = it.id
             viewModel.ticker = it.ticker
         }
         viewModel.getCoin().observe(this, Observer { it?.let { onCoinLoaded(it) } })
-        viewModel.getHistPrices().observe(this, Observer { it?.let { onHistPricesLoaded(it) } })
+
+        setTimeFrame(Timeframe.HOUR)
         setupChart()
+        chartButton1H.setOnClickListener { setTimeFrame(Timeframe.HOUR) }
+        chartButton1D.setOnClickListener { setTimeFrame(Timeframe.DAY) }
+        chartButton1W.setOnClickListener { setTimeFrame(Timeframe.WEEK) }
+        chartButton1M.setOnClickListener { setTimeFrame(Timeframe.MONTH) }
+        chartButton1Y.setOnClickListener { setTimeFrame(Timeframe.YEAR) }
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.requestUpdate()
     }
 
     private fun onHistPricesLoaded(prices: List<HistPrice>) {
@@ -63,6 +67,7 @@ class CoinDetailActivity : AppCompatActivity() {
 
         bindPrice(prices.last())
 
+        chart.clear()
         val yValues = ArrayList<CandleEntry>()
         prices.forEachIndexed { index, minutePrice ->
             yValues.add(CandleEntry(index.toFloat(), minutePrice.high.toFloat(),
@@ -72,11 +77,11 @@ class CoinDetailActivity : AppCompatActivity() {
         val set = CandleDataSet(yValues, viewModel.ticker)
         setupDataSet(set)
 
-        minuteChart.xAxis.valueFormatter = IAxisValueFormatter { value, _ ->
+        chart.xAxis.valueFormatter = IAxisValueFormatter { value, _ ->
             prices[value.toInt()].time.toHourAndMinute()
         }
 
-        minuteChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+        chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onValueSelected(entry: Entry?, h: Highlight?) {
                 entry?.let { bindPrice(prices[it.x.toInt()]) }
             }
@@ -84,8 +89,8 @@ class CoinDetailActivity : AppCompatActivity() {
             override fun onNothingSelected() {}
         })
 
-        minuteChart.data = CandleData(set)
-        minuteChart.invalidate()
+        chart.data = CandleData(set)
+        chart.invalidate()
     }
 
     private fun onCoinLoaded(coin: Coin) {
@@ -101,7 +106,12 @@ class CoinDetailActivity : AppCompatActivity() {
                 Timeframe.WEEK.name -> getString(R.string.aggregation_1_hr)
                 else -> getString(R.string.aggregation_1_day)
             }
-            timeTv.text = time.toDateTime()
+            timeTv.text = when (price.timeFrame) {
+                Timeframe.HOUR.name -> time.toHourAndMinute()
+                Timeframe.DAY.name -> time.toDateTime()
+                Timeframe.WEEK.name -> time.toDateTime()
+                else -> time.toYearMonthDay()
+            }
             openTv.text = open.format()
             closeTv.text = close.format()
             lowTv.text = low.format()
@@ -109,9 +119,15 @@ class CoinDetailActivity : AppCompatActivity() {
         }
     }
 
+    fun setTimeFrame(timeframe: Timeframe) {
+        viewModel.removeObservers(this)
+        viewModel.timeframe = timeframe
+        viewModel.getHistPrices().observe(this, Observer { it?.let { onHistPricesLoaded(it) } })
+        viewModel.requestUpdate()
+    }
 
     private fun setupChart() {
-        with(minuteChart) {
+        with(chart) {
             isDoubleTapToZoomEnabled = false
             legend.isEnabled = false
             description.text = ""

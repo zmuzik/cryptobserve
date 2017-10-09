@@ -35,3 +35,5 @@ fun Double.format(): String {
 fun Long.toHourAndMinute(): String = SimpleDateFormat("HH:mm").format(this)
 
 fun Long.toDateTime(): String = SimpleDateFormat("yyyy-MM-dd HH:mm").format(this)
+
+fun Long.toYearMonthDay(): String = SimpleDateFormat("yyyy-MM-dd").format(this)
