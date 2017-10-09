@@ -33,3 +33,11 @@ data class HistPricesResponse(
         var timeTo: Long,
         var timeFrom: Long
 )
+
+enum class Timeframe {
+    HOUR,
+    DAY,
+    WEEK,
+    MONTH,
+    YEAR
+}

@@ -6,10 +6,7 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import zmuzik.cryptobserve.Conf
 import zmuzik.cryptobserve.Time
-import zmuzik.cryptobserve.repo.entities.Coin
-import zmuzik.cryptobserve.repo.entities.FavCoinListItem
-import zmuzik.cryptobserve.repo.entities.FavoriteCoin
-import zmuzik.cryptobserve.repo.entities.HistPrice
+import zmuzik.cryptobserve.repo.entities.*
 
 
 class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
@@ -81,25 +78,37 @@ class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
 
     override fun getCoin(id: String): LiveData<Coin> = db.coinDao().getById(id)
 
-    override fun maybeRequestPricesForToday(ticker: String) {
-        pricingApi.minutePrices(ticker, Conf.BASE_CURRENCY)
-                .observeOn(Schedulers.io())
+    override fun getHistPrices(ticker: String, timeframe: Timeframe): LiveData<List<HistPrice>> {
+        val from: Long = Time.now - when (timeframe) {
+            Timeframe.HOUR -> Time.HOUR
+            Timeframe.DAY -> Time.DAY
+            Timeframe.WEEK -> Time.WEEK
+            Timeframe.MONTH -> Time.MINUTE
+            Timeframe.YEAR -> Time.YEAR
+        }
+        return db.histPriceDao().getHistPrices(ticker, timeframe.name, from)
+    }
+
+    override fun requestHistPrices(ticker: String, timeframe: Timeframe) {
+        val observable = when (timeframe) {
+            Timeframe.HOUR -> pricingApi.histPrices1min(ticker, Conf.BASE_CURRENCY)
+            Timeframe.DAY -> pricingApi.histPrices5min(ticker, Conf.BASE_CURRENCY)
+            Timeframe.WEEK -> pricingApi.histPrices1hour(ticker, Conf.BASE_CURRENCY)
+            else -> pricingApi.histPrices1day(ticker, Conf.BASE_CURRENCY)
+        }
+
+        observable.observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
                 .subscribe({ result ->
                     val data: List<HistPrice> = result.data
                     data.forEach {
                         it.ticker = ticker
                         it.time = it.time * 1000L
+                        it.timeFrame = timeframe.name
                     }
-                    db.histPriceDao().insertMinutePrices(data)
+                    db.histPriceDao().insertHistPrices(data)
                 }, { error ->
                     Timber.e(error)
                 })
     }
-
-    override fun getPricesForToday(ticker: String): LiveData<List<HistPrice>> {
-        val from = (Time.now - Time.DAY) / 1000L //unix timestamp
-        return db.histPriceDao().getMinutePrices(ticker, from)
-    }
-
 }

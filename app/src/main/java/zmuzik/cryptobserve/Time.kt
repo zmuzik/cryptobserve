@@ -10,6 +10,9 @@ object Time {
     val MINUTE = 60 * SECOND
     val HOUR = 60 * MINUTE
     val DAY = 24 * HOUR
+    val WEEK = 7 * DAY
+    val MONTH = 30 * DAY
+    val YEAR = 366 * DAY
 
     val today
         get() = GregorianCalendar()

@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModel
 import zmuzik.cryptobserve.repo.Repo
 import zmuzik.cryptobserve.repo.entities.Coin
 import zmuzik.cryptobserve.repo.entities.HistPrice
+import zmuzik.cryptobserve.repo.entities.Timeframe
 import javax.inject.Inject
 
 
@@ -13,13 +14,13 @@ class CoinDetailViewModel
 
     lateinit var coinId: String
     lateinit var ticker: String
+    var timeframe = Timeframe.HOUR
 
-    fun maybeRequestUpdate() {
-        repo.maybeRequestPricesForToday(ticker)
+    fun requestUpdate() {
+        repo.requestHistPrices(ticker, timeframe)
     }
 
     fun getCoin(): LiveData<Coin> = repo.getCoin(coinId)
 
-    fun getPricesForToday(): LiveData<List<HistPrice>> = repo.getPricesForToday(ticker)
-
+    fun getHistPrices(): LiveData<List<HistPrice>> = repo.getHistPrices(ticker, timeframe)
 }

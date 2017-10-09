@@ -24,10 +24,10 @@ interface PricingApi {
     // for 1w chart
     @GET("histohour?limit=168")
     fun histPrices1hour(@Query("fsym") ticker: String, @Query("tsym") currency: String):
-            Observable<Map<String, Map<String, String>>>
+            Observable<HistPricesResponse>
 
     // for all other charts
     @GET("histoday?limit=366")
-    fun dailyPrices(@Query("fsym") ticker: String, @Query("tsym") currency: String):
-            Observable<Map<String, Map<String, String>>>
+    fun histPrices1day(@Query("fsym") ticker: String, @Query("tsym") currency: String):
+            Observable<HistPricesResponse>
 }

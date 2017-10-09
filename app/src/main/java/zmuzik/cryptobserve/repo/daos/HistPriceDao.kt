@@ -10,9 +10,9 @@ import zmuzik.cryptobserve.repo.entities.HistPrice
 @Dao
 interface HistPriceDao {
 
-    @Query("SELECT * FROM HistPrice where ticker = :arg0 and time >= :arg1")
-    fun getMinutePrices(ticker: String, from: Long): LiveData<List<HistPrice>>
+    @Query("SELECT * FROM HistPrice where ticker = :arg0 and timeFrame = :arg1 and time >= :arg2")
+    fun getHistPrices(ticker: String, timeFrame: String, from: Long): LiveData<List<HistPrice>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMinutePrices(prices: List<HistPrice>)
+    fun insertHistPrices(prices: List<HistPrice>)
 }

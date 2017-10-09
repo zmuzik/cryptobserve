@@ -49,10 +49,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time Frame:"/>
+                android:text="Aggregation:"/>
 
             <TextView
-                android:id="@+id/timeFrameTv"
+                android:id="@+id/aggregationTv"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

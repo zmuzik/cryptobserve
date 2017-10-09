@@ -48,25 +48,25 @@ class CoinDetailActivity : AppCompatActivity() {
             viewModel.ticker = it.ticker
         }
         viewModel.getCoin().observe(this, Observer { it?.let { onCoinLoaded(it) } })
-        viewModel.getPricesForToday().observe(this, Observer { it?.let { onTodayPricesLoaded(it) } })
+        viewModel.getHistPrices().observe(this, Observer { it?.let { onHistPricesLoaded(it) } })
         setupChart()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.maybeRequestUpdate()
+        viewModel.requestUpdate()
     }
 
-    private fun onTodayPricesLoaded(prices: List<HistPrice>) {
+    private fun onHistPricesLoaded(prices: List<HistPrice>) {
         if (prices.isEmpty()) return
+
+        bindPrice(prices.last())
 
         val yValues = ArrayList<CandleEntry>()
         prices.forEachIndexed { index, minutePrice ->
             yValues.add(CandleEntry(index.toFloat(), minutePrice.high.toFloat(),
                     minutePrice.low.toFloat(), minutePrice.open.toFloat(), minutePrice.close.toFloat()))
         }
-
-        bindPrice(prices.last())
 
         val set = CandleDataSet(yValues, viewModel.ticker)
         setupDataSet(set)
@@ -94,7 +94,7 @@ class CoinDetailActivity : AppCompatActivity() {
 
     private fun bindPrice(price: HistPrice) {
         with(price) {
-            timeFrameTv.text = "5 min"
+            aggregationTv.text = "5 min"
             timeTv.text = time.toDateTime()
             openTv.text = open.format()
             closeTv.text = close.format()
