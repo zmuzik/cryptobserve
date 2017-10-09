@@ -58,10 +58,6 @@ class CoinDetailActivity : AppCompatActivity() {
         chartButton1Y.setOnClickListener { setTimeFrame(Timeframe.YEAR) }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     private fun onHistPricesLoaded(prices: List<HistPrice>) {
         if (prices.isEmpty()) return
 

@@ -83,7 +83,7 @@ class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
             Timeframe.HOUR -> Time.HOUR
             Timeframe.DAY -> Time.DAY
             Timeframe.WEEK -> Time.WEEK
-            Timeframe.MONTH -> Time.MINUTE
+            Timeframe.MONTH -> Time.MONTH
             Timeframe.YEAR -> Time.YEAR
         }
         return db.histPriceDao().getHistPrices(ticker, timeframe.name, from)
