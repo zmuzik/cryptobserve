@@ -17,4 +17,8 @@
     <string name="one_week">1W</string>
     <string name="one_day">1D</string>
     <string name="one_hour">1H</string>
+    <string name="aggregation_1_min">1 min</string>
+    <string name="aggregation_5_min">5 min</string>
+    <string name="aggregation_1_hr">1 hour</string>
+    <string name="aggregation_1_day">1 day</string>
 </resources>

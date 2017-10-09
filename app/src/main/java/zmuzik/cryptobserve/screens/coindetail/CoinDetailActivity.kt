@@ -6,7 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.github.mikephil.charting.components.XAxis.XAxisPosition
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis.AxisDependency
 import com.github.mikephil.charting.data.CandleData
 import com.github.mikephil.charting.data.CandleDataSet
@@ -22,6 +22,7 @@ import zmuzik.cryptobserve.di.ViewModelFactory
 import zmuzik.cryptobserve.repo.entities.Coin
 import zmuzik.cryptobserve.repo.entities.FavCoinListItem
 import zmuzik.cryptobserve.repo.entities.HistPrice
+import zmuzik.cryptobserve.repo.entities.Timeframe
 import javax.inject.Inject
 
 
@@ -94,7 +95,12 @@ class CoinDetailActivity : AppCompatActivity() {
 
     private fun bindPrice(price: HistPrice) {
         with(price) {
-            aggregationTv.text = "5 min"
+            aggregationTv.text = when (price.timeFrame) {
+                Timeframe.HOUR.name -> getString(R.string.aggregation_1_min)
+                Timeframe.DAY.name -> getString(R.string.aggregation_5_min)
+                Timeframe.WEEK.name -> getString(R.string.aggregation_1_hr)
+                else -> getString(R.string.aggregation_1_day)
+            }
             timeTv.text = time.toDateTime()
             openTv.text = open.format()
             closeTv.text = close.format()
@@ -103,13 +109,14 @@ class CoinDetailActivity : AppCompatActivity() {
         }
     }
 
+
     private fun setupChart() {
         with(minuteChart) {
             isDoubleTapToZoomEnabled = false
             legend.isEnabled = false
             description.text = ""
             axisLeft.gridLineWidth = 1f
-            xAxis.position = XAxisPosition.BOTTOM
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.labelCount = 6
             xAxis.gridLineWidth = 1f
         }
