@@ -38,13 +38,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Time:"/>
+                android:text="@string/time"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Aggregation:"/>
+                android:text="@string/aggregation"/>
         </LinearLayout>
 
         <LinearLayout
@@ -77,13 +77,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Open:"/>
+                android:text="@string/open"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Close:"/>
+                android:text="@string/close"/>
         </LinearLayout>
 
         <LinearLayout
@@ -116,13 +116,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Low:"/>
+                android:text="@string/low"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="High:"/>
+                android:text="@string/high"/>
         </LinearLayout>
 
         <LinearLayout
@@ -162,7 +162,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="1Y"/>
+            android:text="@string/one_year"/>
 
         <TextView
             android:id="@+id/chartButton1M"
@@ -170,7 +170,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="1M"/>
+            android:text="@string/one_month"/>
 
         <TextView
             android:id="@+id/chartButton1W"
@@ -178,7 +178,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="1W"/>
+            android:text="@string/one_week"/>
 
         <TextView
             android:id="@+id/chartButton1D"
@@ -186,7 +186,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="1D"/>
+            android:text="@string/one_day"/>
 
         <TextView
             android:id="@+id/chartButton1H"
@@ -194,7 +194,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="1H"/>
+            android:text="@string/one_hour"/>
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.CandleStickChart

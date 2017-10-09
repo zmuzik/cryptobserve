@@ -6,4 +6,15 @@
     <string name="proof_type">Proof Type: %s</string>
     <string name="q_remove_x_from_fav">Do you want to remove %s from the list?</string>
     <string name="unable_to_load_screen">Unable to load screen, missing data</string>
+    <string name="time">Time:</string>
+    <string name="aggregation">Aggregation:</string>
+    <string name="open">Open:</string>
+    <string name="close">Close:</string>
+    <string name="low">Low:</string>
+    <string name="high">High:</string>
+    <string name="one_year">1Y</string>
+    <string name="one_month">1M</string>
+    <string name="one_week">1W</string>
+    <string name="one_day">1D</string>
+    <string name="one_hour">1H</string>
 </resources>

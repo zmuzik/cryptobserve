@@ -16,9 +16,7 @@ class CoinDetailViewModel
     lateinit var ticker: String
     var timeframe = Timeframe.HOUR
 
-    fun requestUpdate() {
-        repo.requestHistPrices(ticker, timeframe)
-    }
+    fun requestUpdate() = repo.requestHistPrices(ticker, timeframe)
 
     fun getCoin(): LiveData<Coin> = repo.getCoin(coinId)
 
