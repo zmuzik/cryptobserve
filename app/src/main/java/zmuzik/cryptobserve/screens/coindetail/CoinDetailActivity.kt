@@ -66,6 +66,8 @@ class CoinDetailActivity : AppCompatActivity() {
                     minutePrice.low.toFloat(), minutePrice.open.toFloat(), minutePrice.close.toFloat()))
         }
 
+        bindPrice(prices.last())
+
         val set = CandleDataSet(yValues, viewModel.ticker)
         setupDataSet(set)
 
@@ -75,15 +77,7 @@ class CoinDetailActivity : AppCompatActivity() {
 
         minuteChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onValueSelected(entry: Entry?, h: Highlight?) {
-                entry?.let {
-                    val price = prices[it.x.toInt()]
-                    timeTv.text = price.time.toDateTime()
-                    timeFrameTv.text = "5 min"
-                    openTv.text = price.open.format()
-                    closeTv.text = price.close.format()
-                    lowTv.text = price.low.format()
-                    highTv.text = price.high.format()
-                }
+                entry?.let { bindPrice(prices[it.x.toInt()]) }
             }
 
             override fun onNothingSelected() {}
@@ -96,6 +90,17 @@ class CoinDetailActivity : AppCompatActivity() {
     private fun onCoinLoaded(coin: Coin) {
         coinLogoIv.loadImg(Conf.BASE_IMAGE_URL + coin.imageUrl)
         coinNameTv.text = coin.fullName
+    }
+
+    private fun bindPrice(price: MinutePrice) {
+        with(price) {
+            timeFrameTv.text = "5 min"
+            timeTv.text = time.toDateTime()
+            openTv.text = open.format()
+            closeTv.text = close.format()
+            lowTv.text = low.format()
+            highTv.text = high.format()
+        }
     }
 
     private fun setupChart() {
