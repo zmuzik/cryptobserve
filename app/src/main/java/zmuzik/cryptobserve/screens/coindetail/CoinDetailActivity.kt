@@ -11,7 +11,10 @@ import com.github.mikephil.charting.components.YAxis.AxisDependency
 import com.github.mikephil.charting.data.CandleData
 import com.github.mikephil.charting.data.CandleDataSet
 import com.github.mikephil.charting.data.CandleEntry
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_coin_detail.*
 import zmuzik.cryptobserve.*
@@ -46,6 +49,7 @@ class CoinDetailActivity : AppCompatActivity() {
         }
         viewModel.getCoin().observe(this, Observer { it?.let { onCoinLoaded(it) } })
         viewModel.getPricesForToday().observe(this, Observer { it?.let { onTodayPricesLoaded(it) } })
+        setupChart()
     }
 
     override fun onResume() {
@@ -63,30 +67,60 @@ class CoinDetailActivity : AppCompatActivity() {
         }
 
         val set = CandleDataSet(yValues, viewModel.ticker)
-        set.setDrawIcons(true)
-        set.setDrawValues(false)
-        set.axisDependency = AxisDependency.LEFT
-        set.shadowColor = Color.DKGRAY
-        set.decreasingColor = Color.RED
-        set.decreasingPaintStyle = Paint.Style.FILL_AND_STROKE
-        set.increasingColor = Color.GREEN
-        set.increasingPaintStyle = Paint.Style.FILL_AND_STROKE
-        set.neutralColor = Color.BLUE
+        setupDataSet(set)
 
-        minuteChart.xAxis.position = XAxisPosition.BOTTOM
-        minuteChart.xAxis.labelCount = 6
         minuteChart.xAxis.valueFormatter = IAxisValueFormatter { value, _ ->
             prices[value.toInt()].time.toHourAndMinute()
         }
 
+        minuteChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onValueSelected(entry: Entry?, h: Highlight?) {
+                entry?.let {
+                    val price = prices[it.x.toInt()]
+                    timeTv.text = price.time.toDateTime()
+                    timeFrameTv.text = "5 min"
+                    openTv.text = price.open.format()
+                    closeTv.text = price.close.format()
+                    lowTv.text = price.low.format()
+                    highTv.text = price.high.format()
+                }
+            }
+
+            override fun onNothingSelected() {}
+        })
+
         minuteChart.data = CandleData(set)
-        minuteChart.legend.isEnabled = false
-        minuteChart.description.text = ""
         minuteChart.invalidate()
     }
 
     private fun onCoinLoaded(coin: Coin) {
         coinLogoIv.loadImg(Conf.BASE_IMAGE_URL + coin.imageUrl)
         coinNameTv.text = coin.fullName
+    }
+
+    private fun setupChart() {
+        with(minuteChart) {
+            isDoubleTapToZoomEnabled = false
+            legend.isEnabled = false
+            description.text = ""
+            axisLeft.gridLineWidth = 1f
+            xAxis.position = XAxisPosition.BOTTOM
+            xAxis.labelCount = 6
+            xAxis.gridLineWidth = 1f
+        }
+    }
+
+    private fun setupDataSet(set: CandleDataSet) {
+        with(set) {
+            setDrawIcons(true)
+            setDrawValues(false)
+            axisDependency = AxisDependency.LEFT
+            shadowColor = Color.DKGRAY
+            decreasingColor = Color.RED
+            decreasingPaintStyle = Paint.Style.FILL_AND_STROKE
+            increasingColor = Color.GREEN
+            increasingPaintStyle = Paint.Style.FILL_AND_STROKE
+            neutralColor = Color.BLUE
+        }
     }
 }
