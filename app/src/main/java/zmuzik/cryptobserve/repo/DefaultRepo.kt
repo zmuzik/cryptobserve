@@ -9,6 +9,7 @@ import zmuzik.cryptobserve.Time
 import zmuzik.cryptobserve.repo.entities.Coin
 import zmuzik.cryptobserve.repo.entities.FavCoinListItem
 import zmuzik.cryptobserve.repo.entities.FavoriteCoin
+import zmuzik.cryptobserve.repo.entities.MinutePrice
 
 
 class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
@@ -78,5 +79,27 @@ class DefaultRepo(val db: Db, val prefs: Prefs, val coinListApi: CoinListApi,
 
     override fun deleteFavCoin(ticker: String) = bg { db.coinDao().deleteFavCoin(ticker) }
 
-    override fun getCoin(id : String): LiveData<Coin> = db.coinDao().getById(id)
+    override fun getCoin(id: String): LiveData<Coin> = db.coinDao().getById(id)
+
+    override fun maybeRequestPricesForToday(ticker: String) {
+        pricingApi.minutePrices(ticker, Conf.BASE_CURRENCY)
+                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ result ->
+                    val data: List<MinutePrice> = result.data
+                    data.forEach {
+                        it.ticker = ticker
+                        it.time = it.time * 1000L
+                    }
+                    db.histPriceDao().insertMinutePrices(data)
+                }, { error ->
+                    Timber.e(error)
+                })
+    }
+
+    override fun getPricesForToday(ticker: String): LiveData<List<MinutePrice>> {
+        val from = (Time.now - Time.DAY) / 1000L //unix timestamp
+        return db.histPriceDao().getMinutePrices(ticker, from)
+    }
+
 }

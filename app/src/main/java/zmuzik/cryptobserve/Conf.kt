@@ -16,4 +16,7 @@ object Conf {
     val FAV_PRICES_UPDATE_INTERVAL = Time.MINUTE
 
     val BASE_CURRENCY = "USD"
+
+    val MINUTE_CHART_DATA_AGGREGATE = 60
+
 }

@@ -4,14 +4,6 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 
-data class CoinListResponse(
-        var response: String,
-        var message: String,
-        var baseImageUrl: String,
-        var baseLinkUrl: String,
-        var data: HashMap<String, Coin>
-)
-
 @Parcelize
 data class FavCoinListItem(
         var id: String,
@@ -22,3 +14,22 @@ data class FavCoinListItem(
 ) : Parcelable {
     constructor() : this("", "", "", "", null)
 }
+
+data class CoinListResponse(
+        var response: String,
+        var message: String,
+        var baseImageUrl: String,
+        var baseLinkUrl: String,
+        var data: HashMap<String, Coin>
+)
+
+data class MinutePricesResponse(
+        var response: String,
+        var message: String,
+        var type: Int,
+        var aggregated: Boolean,
+        var data: List<MinutePrice>,
+        var firstValueInArray: Boolean,
+        var timeTo: Long,
+        var timeFrom: Long
+)

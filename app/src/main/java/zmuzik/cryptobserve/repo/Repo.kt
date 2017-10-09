@@ -3,6 +3,7 @@ package zmuzik.cryptobserve.repo
 import android.arch.lifecycle.LiveData
 import zmuzik.cryptobserve.repo.entities.Coin
 import zmuzik.cryptobserve.repo.entities.FavCoinListItem
+import zmuzik.cryptobserve.repo.entities.MinutePrice
 
 
 interface Repo {
@@ -22,5 +23,9 @@ interface Repo {
     fun deleteFavCoin(ticker: String)
 
     fun getCoin(id : String): LiveData<Coin>
+
+    fun getPricesForToday(ticker: String): LiveData<List<MinutePrice>>
+
+    fun maybeRequestPricesForToday(ticker: String)
 
 }

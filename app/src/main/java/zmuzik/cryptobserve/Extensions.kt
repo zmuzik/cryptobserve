@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 
 
 fun ViewGroup.inflate(layoutRes: Int): View {
@@ -30,3 +31,7 @@ fun Double.format(): String {
     df.maximumFractionDigits = 20
     return df.format(this)
 }
+
+fun Long.toHourAndMinute(): String = SimpleDateFormat("HH:mm").format(this)
+
+fun Long.toDateTime(): String = SimpleDateFormat("yyyy-MM-dd HH:mm").format(this)
