@@ -2,7 +2,6 @@ package zmuzik.cryptobserve.screens.coindetail
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
@@ -34,30 +33,27 @@ class CoinDetailActivity : AppCompatActivity() {
     @Inject lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: CoinDetailViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedState: Bundle?) {
         AndroidInjection.inject(this)
-        super.onCreate(savedInstanceState)
+        super.onCreate(savedState)
         setContentView(R.layout.activity_coin_detail)
 
-        if (intent == null || !intent.hasExtra(Keys.COIN)
-                || intent.getParcelableExtra<FavCoinListItem>(Keys.COIN) == null) {
+        val favCoin = intent?.getParcelableExtra<FavCoinListItem>(Keys.COIN)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CoinDetailViewModel::class.java)
+
+        viewModel.coinId = savedState?.getString(Keys.COIN_ID) ?: favCoin?.id ?: ""
+        viewModel.ticker = savedState?.getString(Keys.TICKER) ?: favCoin?.ticker ?: ""
+        if (viewModel.coinId == "" || viewModel.ticker == "") {
             toast(getString(R.string.unable_to_load_screen))
             finish()
         }
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(CoinDetailViewModel::class.java)
-        intent.getParcelableExtra<FavCoinListItem>(Keys.COIN)?.let {
-            viewModel.coinId = it.id
-            viewModel.ticker = it.ticker
-        }
-        savedInstanceState?.let {
-            viewModel.coinId = it.getString(Keys.COIN_ID)
-            viewModel.ticker = it.getString(Keys.TICKER)
-        }
         viewModel.getCoin().observe(this, Observer { it?.let { onCoinLoaded(it) } })
 
         setupChart()
-        setupTabs(savedInstanceState?.getInt(Keys.ACTIVE_TAB))
+        setupTabs(savedState?.getInt(Keys.ACTIVE_TAB))
+        savedState?.getString(Keys.TIMEFRAME)?.let { setTimeFrame(Timeframe.valueOf(it)) }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -65,6 +61,7 @@ class CoinDetailActivity : AppCompatActivity() {
         outState?.putString(Keys.COIN_ID, viewModel.coinId)
         outState?.putString(Keys.TICKER, viewModel.ticker)
         outState?.putInt(Keys.ACTIVE_TAB, buttonPanel.selectedTabPosition)
+        outState?.putString(Keys.TIMEFRAME, viewModel.timeframe.name)
     }
 
     @Synchronized

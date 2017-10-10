@@ -15,4 +15,6 @@ object Keys {
     val TICKER = "TICKER"
 
     val ACTIVE_TAB = "ACTIVE_TAB"
+
+    val TIMEFRAME = "TIMEFRAME"
 }
