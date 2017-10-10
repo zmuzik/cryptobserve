@@ -23,7 +23,7 @@ class CoinDetailViewModel
 
     fun getCoin(): LiveData<Coin> = repo.getCoin(coinId)
 
-    fun removeObservers(owner: LifecycleOwner) = pricesStreamWr?.get()?.removeObservers(owner)
+    fun removePriceObservers(owner: LifecycleOwner) = pricesStreamWr?.get()?.removeObservers(owner)
 
     fun getHistPrices(): LiveData<List<HistPrice>> {
         val pricesStream = repo.getHistPrices(ticker, timeframe)

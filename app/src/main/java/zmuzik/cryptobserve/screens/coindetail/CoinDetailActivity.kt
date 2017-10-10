@@ -129,7 +129,7 @@ class CoinDetailActivity : AppCompatActivity() {
     }
 
     fun setTimeFrame(timeframe: Timeframe) {
-        viewModel.removeObservers(this)
+        viewModel.removePriceObservers(this)
         chart.clear()
         viewModel.timeframe = timeframe
         viewModel.getHistPrices().observe(this, Observer { it?.let { onHistPricesLoaded(it) } })
