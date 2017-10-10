@@ -93,7 +93,10 @@ class CoinListActivity : AppCompatActivity() {
         val dialog =  AlertDialog.Builder(this)
                 .setMessage(getString(R.string.q_remove_x_from_fav, name))
                 .setNegativeButton(getString(android.R.string.cancel)) { dialog, _ -> dialog.dismiss() }
-                .setPositiveButton(getString(android.R.string.ok)) { _, _ -> viewModel.deleteFavCoin(ticker) }
+                .setPositiveButton(getString(android.R.string.ok)) { dialog, _ ->
+                    viewModel.deleteFavCoin(ticker)
+                    dialog.dismiss()
+                }
                 .show()
         dialogWr = WeakReference(dialog)
         dialog.show()
