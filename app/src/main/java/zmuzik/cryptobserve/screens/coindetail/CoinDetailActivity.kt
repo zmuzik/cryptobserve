@@ -17,6 +17,7 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_coin_detail.*
+import timber.log.Timber
 import zmuzik.cryptobserve.*
 import zmuzik.cryptobserve.di.ViewModelFactory
 import zmuzik.cryptobserve.repo.entities.Coin
@@ -58,6 +59,7 @@ class CoinDetailActivity : AppCompatActivity() {
         chartButton1Y.setOnClickListener { setTimeFrame(Timeframe.YEAR) }
     }
 
+    @Synchronized
     private fun onHistPricesLoaded(prices: List<HistPrice>) {
         if (prices.isEmpty()) return
 
@@ -66,17 +68,33 @@ class CoinDetailActivity : AppCompatActivity() {
         chart.clear()
         val yValues = ArrayList<CandleEntry>()
         prices.forEachIndexed { index, minutePrice ->
-            yValues.add(CandleEntry(index.toFloat(), minutePrice.high.toFloat(),
-                    minutePrice.low.toFloat(), minutePrice.open.toFloat(), minutePrice.close.toFloat()))
+            yValues.add(CandleEntry(index.toFloat(),
+                    minutePrice.high.toFloat(),
+                    minutePrice.low.toFloat(),
+                    minutePrice.open.toFloat(),
+                    minutePrice.close.toFloat(),
+                    minutePrice))
         }
 
         val set = CandleDataSet(yValues, viewModel.ticker)
         setupDataSet(set)
 
         chart.xAxis.valueFormatter = IAxisValueFormatter { value, _ ->
-            prices[value.toInt()].time.toHourAndMinute()
+            try {
+                val price = set.getEntryForIndex(value.toInt()).data as HistPrice
+                when (price.timeFrame) {
+                    Timeframe.HOUR.name -> price.time.toHourAndMinute()
+                    Timeframe.DAY.name -> price.time.toDateTimeShort()
+                    Timeframe.WEEK.name -> price.time.toDateTimeShort()
+                    else -> price.time.toMonthDay()
+                }
+            } catch (e: IndexOutOfBoundsException) {
+                Timber.e(e.message)
+                ""
+            }
         }
 
+        chart.data = CandleData(set)
         chart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onValueSelected(entry: Entry?, h: Highlight?) {
                 entry?.let { bindPrice(prices[it.x.toInt()]) }
@@ -84,8 +102,6 @@ class CoinDetailActivity : AppCompatActivity() {
 
             override fun onNothingSelected() {}
         })
-
-        chart.data = CandleData(set)
         chart.invalidate()
     }
 
@@ -117,6 +133,7 @@ class CoinDetailActivity : AppCompatActivity() {
 
     fun setTimeFrame(timeframe: Timeframe) {
         viewModel.removeObservers(this)
+        chart.clear()
         viewModel.timeframe = timeframe
         viewModel.getHistPrices().observe(this, Observer { it?.let { onHistPricesLoaded(it) } })
         viewModel.requestUpdate()
