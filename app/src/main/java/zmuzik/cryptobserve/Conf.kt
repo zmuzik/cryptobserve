@@ -13,7 +13,7 @@ object Conf {
 
     val COIN_LIST_UPDATE_INTERVAL = Time.DAY
 
-    val FAV_PRICES_UPDATE_INTERVAL = Time.MINUTE
+    val FAV_PRICES_UPDATE_INTERVAL = 10 * Time.SECOND
 
     val BASE_CURRENCY = "USD"
 
