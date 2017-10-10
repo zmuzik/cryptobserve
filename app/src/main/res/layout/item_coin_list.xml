@@ -7,42 +7,26 @@
 
     <ImageView
         android:id="@+id/coinLogoIv"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
         android:layout_width="@dimen/coin_logo_size"
-        android:layout_height="@dimen/coin_logo_size"/>
+        android:layout_height="@dimen/coin_logo_size"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"/>
 
     <TextView
         android:id="@+id/coinNameTv"
+        style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextAppearance.AppCompat.Medium"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/gap"
         android:layout_toRightOf="@id/coinLogoIv"/>
 
     <TextView
         android:id="@+id/tickerTv"
-        android:layout_width="wrap_content"
         style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"/>
-
-    <!--
-    <TextView
-        android:id="@+id/algorithmTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/coinNameTv"
-        android:layout_toRightOf="@id/coinLogoIv"/>
-
-    <TextView
-        android:id="@+id/proofTypeTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/coinNameTv"
-        android:layout_toRightOf="@id/algorithmTv"/>
-        -->
 
 </RelativeLayout>

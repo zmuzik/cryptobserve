@@ -15,7 +15,7 @@ interface Repo {
 
     fun getAllCoins(): LiveData<List<Coin>>
 
-    fun getAllCoinsExFavorite(): LiveData<List<Coin>>
+    fun getAllCoinsExFavorite(filter: String): LiveData<List<Coin>>
 
     fun getAllFavoriteCoins(): LiveData<List<FavCoinListItem>>
 

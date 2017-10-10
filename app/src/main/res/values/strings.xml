@@ -22,4 +22,6 @@
     <string name="aggregation_1_hr">1 hour</string>
     <string name="aggregation_1_day">1 day</string>
     <string name="empty_list">There are no coins in the list at the moment.\nAdd some with the + button.</string>
+    <string name="filter">Filter</string>
+    <string name="no_coins_available">No coins available. Check your internet connection or change the filter.</string>
 </resources>
