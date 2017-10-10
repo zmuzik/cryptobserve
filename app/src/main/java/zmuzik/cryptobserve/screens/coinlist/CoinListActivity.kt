@@ -20,12 +20,14 @@ import zmuzik.cryptobserve.di.ViewModelFactory
 import zmuzik.cryptobserve.repo.entities.FavCoinListItem
 import zmuzik.cryptobserve.screens.coindetail.CoinDetailActivity
 import zmuzik.cryptobserve.screens.coinpicker.CoinPickerActivity
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class CoinListActivity : AppCompatActivity() {
 
     @Inject lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: CoinListViewModel
+    private var dialogWr: WeakReference<AlertDialog>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -43,6 +45,11 @@ class CoinListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.maybeRequestUpdates()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        dialogWr?.get()?.dismiss()
     }
 
     private fun onCoinsLoaded(coins: List<FavCoinListItem>) {
@@ -71,19 +78,25 @@ class CoinListActivity : AppCompatActivity() {
     }
 
     private fun showInfoDialog() {
-        AlertDialog.Builder(this)
+        dialogWr?.get()?.dismiss()
+        val dialog =  AlertDialog.Builder(this)
                 .setTitle(getString(R.string.info))
                 .setMessage(getString(R.string.app_info_message))
                 .setPositiveButton(getString(android.R.string.ok)) { dialog, _ -> dialog.dismiss() }
-                .show()
+                .create()
+        dialogWr = WeakReference(dialog)
+        dialog.show()
     }
 
     private fun showDeleteDialog(ticker: String, name: String) {
-        AlertDialog.Builder(this)
+        dialogWr?.get()?.dismiss()
+        val dialog =  AlertDialog.Builder(this)
                 .setMessage(getString(R.string.q_remove_x_from_fav, name))
                 .setNegativeButton(getString(android.R.string.cancel)) { dialog, _ -> dialog.dismiss() }
                 .setPositiveButton(getString(android.R.string.ok)) { _, _ -> viewModel.deleteFavCoin(ticker) }
                 .show()
+        dialogWr = WeakReference(dialog)
+        dialog.show()
     }
 
     private fun openDetail(coin: FavCoinListItem) {
