@@ -128,7 +128,7 @@ class CoinListActivity : AppCompatActivity() {
                 val coin = coins[position]
                 itemView.coinNameTv.text = coin.name
                 itemView.coinRateTv.text = coin.price?.format() ?: ""
-                itemView.coinRateUnitTv.text = "${Conf.BASE_CURRENCY}/${coin.ticker}"
+                itemView.coinRateUnitTv.text = coin.price?.let { "${Conf.BASE_CURRENCY}/${coin.ticker}" } ?: ""
                 itemView.coinLogoIv.loadImg(Conf.BASE_IMAGE_URL + coin.imageUrl)
                 itemView.setOnLongClickListener { showDeleteDialog(coin.ticker, coin.name); true }
                 itemView.setOnClickListener { openDetail(coin) }
