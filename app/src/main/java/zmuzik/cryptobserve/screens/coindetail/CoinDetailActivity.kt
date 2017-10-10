@@ -153,6 +153,7 @@ class CoinDetailActivity : AppCompatActivity() {
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.labelCount = 6
             xAxis.gridLineWidth = 1f
+            setNoDataText(context.getString(R.string.loading_data))
         }
     }
 

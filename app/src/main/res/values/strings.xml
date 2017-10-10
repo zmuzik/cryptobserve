@@ -24,4 +24,5 @@
     <string name="empty_list">There are no coins in the list at the moment.\nAdd some with the + button.</string>
     <string name="filter">Filter</string>
     <string name="no_coins_available">No coins available. Check your internet connection or change the filter.</string>
+    <string name="loading_data">Loading data...</string>
 </resources>
