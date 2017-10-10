@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis.AxisDependency
@@ -52,11 +53,7 @@ class CoinDetailActivity : AppCompatActivity() {
 
         setTimeFrame(Timeframe.HOUR)
         setupChart()
-        chartButton1H.setOnClickListener { setTimeFrame(Timeframe.HOUR) }
-        chartButton1D.setOnClickListener { setTimeFrame(Timeframe.DAY) }
-        chartButton1W.setOnClickListener { setTimeFrame(Timeframe.WEEK) }
-        chartButton1M.setOnClickListener { setTimeFrame(Timeframe.MONTH) }
-        chartButton1Y.setOnClickListener { setTimeFrame(Timeframe.YEAR) }
+        setupTabs()
     }
 
     @Synchronized
@@ -163,5 +160,29 @@ class CoinDetailActivity : AppCompatActivity() {
             increasingPaintStyle = Paint.Style.FILL_AND_STROKE
             neutralColor = Color.BLUE
         }
+    }
+
+    private fun setupTabs() {
+        buttonPanel.addTab(buttonPanel.newTab().setText(getString(R.string.one_year)))
+        buttonPanel.addTab(buttonPanel.newTab().setText(getString(R.string.one_month)))
+        buttonPanel.addTab(buttonPanel.newTab().setText(getString(R.string.one_week)))
+        buttonPanel.addTab(buttonPanel.newTab().setText(getString(R.string.one_day)))
+        buttonPanel.addTab(buttonPanel.newTab().setText(getString(R.string.one_hour)))
+        buttonPanel.getTabAt(4)?.select()
+        buttonPanel.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (buttonPanel.selectedTabPosition) {
+                    0 -> setTimeFrame(Timeframe.YEAR)
+                    1 -> setTimeFrame(Timeframe.MONTH)
+                    2 -> setTimeFrame(Timeframe.WEEK)
+                    3 -> setTimeFrame(Timeframe.DAY)
+                    4 -> setTimeFrame(Timeframe.HOUR)
+                }
+            }
+        })
     }
 }

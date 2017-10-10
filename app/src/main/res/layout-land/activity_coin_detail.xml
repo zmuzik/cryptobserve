@@ -104,56 +104,13 @@
         </LinearLayout>
     </ScrollView>
 
-
-    <LinearLayout
+    <android.support.design.widget.TabLayout
         android:id="@+id/buttonPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/large_gap"
-        android:layout_toRightOf="@id/indicators"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/chartButton1Y"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/one_year"/>
-
-        <TextView
-            android:id="@+id/chartButton1M"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/one_month"/>
-
-        <TextView
-            android:id="@+id/chartButton1W"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/one_week"/>
-
-        <TextView
-            android:id="@+id/chartButton1D"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/one_day"/>
-
-        <TextView
-            android:id="@+id/chartButton1H"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/one_hour"/>
-    </LinearLayout>
+        android:layout_toRightOf="@id/indicators"/>
 
     <com.github.mikephil.charting.charts.CandleStickChart
         android:id="@+id/chart"
