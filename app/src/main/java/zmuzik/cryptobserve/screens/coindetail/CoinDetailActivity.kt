@@ -192,5 +192,6 @@ class CoinDetailActivity : AppCompatActivity() {
             }
         })
         buttonPanel.getTabAt(selectedTab ?: buttonPanel.tabCount - 1)?.select()
+        buttonPanel.setSelectedTabIndicatorHeight(0)
     }
 }
