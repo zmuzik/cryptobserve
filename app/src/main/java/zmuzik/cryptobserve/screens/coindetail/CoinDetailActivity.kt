@@ -2,6 +2,7 @@ package zmuzik.cryptobserve.screens.coindetail
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
@@ -49,11 +50,21 @@ class CoinDetailActivity : AppCompatActivity() {
             viewModel.coinId = it.id
             viewModel.ticker = it.ticker
         }
+        savedInstanceState?.let {
+            viewModel.coinId = it.getString(Keys.COIN_ID)
+            viewModel.ticker = it.getString(Keys.TICKER)
+        }
         viewModel.getCoin().observe(this, Observer { it?.let { onCoinLoaded(it) } })
 
-        setTimeFrame(Timeframe.HOUR)
         setupChart()
-        setupTabs()
+        setupTabs(savedInstanceState?.getInt(Keys.ACTIVE_TAB))
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putString(Keys.COIN_ID, viewModel.coinId)
+        outState?.putString(Keys.TICKER, viewModel.ticker)
+        outState?.putInt(Keys.ACTIVE_TAB, buttonPanel.selectedTabPosition)
     }
 
     @Synchronized
@@ -162,13 +173,12 @@ class CoinDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupTabs() {
+    private fun setupTabs(selectedTab: Int?) {
         buttonPanel.addTab(buttonPanel.newTab().setText(getString(R.string.one_year)))
         buttonPanel.addTab(buttonPanel.newTab().setText(getString(R.string.one_month)))
         buttonPanel.addTab(buttonPanel.newTab().setText(getString(R.string.one_week)))
         buttonPanel.addTab(buttonPanel.newTab().setText(getString(R.string.one_day)))
         buttonPanel.addTab(buttonPanel.newTab().setText(getString(R.string.one_hour)))
-        buttonPanel.getTabAt(4)?.select()
         buttonPanel.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {}
 
@@ -184,5 +194,6 @@ class CoinDetailActivity : AppCompatActivity() {
                 }
             }
         })
+        buttonPanel.getTabAt(selectedTab ?: buttonPanel.tabCount - 1)?.select()
     }
 }

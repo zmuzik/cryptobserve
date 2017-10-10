@@ -10,4 +10,9 @@ object Keys {
 
     val COIN = "COIN"
 
+    val COIN_ID = "COIN_ID"
+
+    val TICKER = "TICKER"
+
+    val ACTIVE_TAB = "ACTIVE_TAB"
 }
